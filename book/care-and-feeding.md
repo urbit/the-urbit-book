@@ -67,11 +67,7 @@ Jump down to the heading "What is a ship?".
 
 If you are running your ship yourself, then you get to have a bit more fun at the cost of a bit more labor.  If you are hosted, you can read this section for information but you shouldn't follow these steps now.
 
-If you have already started your ship before, then be careful not to double-boot it.  You can skip ahead to the heading "Accessing Your Ship".
-
-> ##  Double Booting
->
-> ["Double booting"](https://docs.urbit.org/glossary/double-boot) means running two copies of the same ship at the same time on the network.  This puts the network in an inconsistent state, and requires you to factory-reset your ship.  This is only a risk if you make copies of your ship's folder, so don't do that.
+If you have already started your ship before, you can skip ahead to the heading "Accessing Your Ship".
 
 #### Acquiring the Keyfile
 
@@ -89,18 +85,52 @@ To certify to the network that your Urbit ID is in fact valid, you need to acqui
 
 #### Initial Boot
 
+The initial boot process involves Urbit using your private keyfile to verify with Azimuth that you are who you claim you are, followed by downloading and implementing the “boot pill”, or set of instructions that yield a fully functional Urbit ship starting from nothing but the rules of Nock.
 
+You'll see some interesting bits in there, like:
 
-Once your Urbit ship has successfully booted, the keyfile is no longer useful.  Go ahead and delete it.
+- `retrieving galaxy table` so you know who the major network nodes (galaxies) are
+- `retrieving keys for sponsor` so you can communicate with your on-network sponsor
+- `installed ### jets` so you have jet-accelerated Nock (faster computations)
+
+This leads to `replaying events` which is the basic process for actually making a ship:  setting up the operating system, the event handler, the communications protocols, etc.
+
+Finally, the vanes and user applications boot and you are left at the `dojo>` prompt.
+
+Type `|hi ~zod` and you should see a response pretty quickly.  That's a network ping to the most central node in a broadly decentralized system—it's the current source of software updates over the network.
+
+> ## Cleanup
+>
+> Once your Urbit ship has successfully booted, the keyfile is no longer useful.  Go ahead and delete it.  You can use a file browser or the (Unix) command line to do this, e.g. `rm sampel-palnet-1.key`.
 
 #### Leaving It Running
 
-screen
-double booting
+Your Urbit ship is a server.  That is, it runs services that various other parts of your computer can utilize.  Right now, the main ways to interact with an Urbit ship are through your browser, through the Tlon mobile app, and through the command line.  The Dojo is the primary command-line interface (CLI) for Urbit.
+
+First, type `help` to get a clue about what to do.  Follow its instruction and input `+start` for details.
+
+Run some of the suggested commands, then shut down your ship with `|exit`.
+
+Now the Urbit ship isn't running any more:  you can't access it from other ships or from the browser.  Most of the time, you'd clearly like it to just stay running.  The simplest way to to do this is to run it in a “detachable session”, or a terminal session you can come back to whenever you need to manage the ship directly.
+
+1. The most common of these is `screen`.  To run an Urbit ship in `screen`, type `screen -S Urbit` to start a new session.
+2. This time, when you start your Urbit ship, you aren't booting it for the first time.  To that end, you do not need to boot it again (and should not try to).  Simply type `./sampel-palnet/.run` to run the ship with its attached executable.
+3. The Dojo prompt is visible once the restart process completes.  Instead of typing `|exit`, press `Ctrl`+`a` then `Ctrl`+`d` to detach from the `screen` session.  You'll be back out at the regular Unix prompt.
+4. You can close the terminal window and walk away, and as long as the machine you're running on stays up, your ship should keep running.
+5. You can reattach to the ship with `screen -X Urbit`, which will reconnect you to the Dojo terminal session.
 
 ### What Is A Ship?
 
 To the computer, your Urbit ship is actually a folder containing the state of the program.  If you open the ship in a file browser, you can access the hidden folder `/.urb` which has a number of different folders inside of it.  In general, we don't ever need to touch these, but this is where the actual contents of your ship lives in the host OS.
+
+Since you're just a bit curious, here's what the major pieces are:
+
+- `/bhk` is a backup folder containing event log history.  (This may not always be present.)
+- `/chk` is the main event log history.
+- `/get` and `/put` are used to move data to and from the ship in certain circumstances.
+- `/log` contains the main event log state, i.e. what your ship knows and does right now.
+
+You typically won't touch these at all, but now you know that they're there.
 
 **This lesson is complete.**
 
@@ -119,6 +149,8 @@ basic commands
 
 ship details
 azimuth etc.
+
+`|mount`
 
 ##  Lesson 3:  The Web Interface
 
