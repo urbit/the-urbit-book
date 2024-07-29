@@ -33,6 +33,8 @@ So you're a proud new owner of an Urbit ship.  It's time to boot it up for the f
 > ### What is an "Urbit ship"?
 >
 > An Urbit ship is the actual identity you will have on Urbit's network.  It is most commonly a "planet", or regular permanent identity, but it may be a "comet", or temporary identity, if you're on the network without having bought or acquired a plent first.
+> 
+> Developers often prefer to use “fake ships”, ships which do not have a public Urbit ID.  *The Urbit Book* lessons are written such that you won't break your ship by completing them, so it's safe to complete this using your regular ship.
 
 There are two paths here, depending on whether you are using a hosting service (like Tlon or Red Horizon) or running the ship yourself.  Based on which of those you are doing, you should follow the appropriate path below.
 
@@ -137,25 +139,133 @@ You typically won't touch these at all, but now you know that they're there.
 
 ##  Lesson 2:  The Command Line Interface
 
-If you are hosted, you should access your terminal from the Landscape page at the Terminal app.  If you are self-hosted, you can use the terminal directly 
+If you are hosted, you should access your terminal from the Landscape page at the Terminal app.  If you are self-hosted, you can use the terminal directly; you may need to type `screen -X Urbit` at the Bash prompt `$` to access it.
 
-basic commands
+The Dojo prompt `dojo>` lets you type Hoon code or run specific short programs, much like the [Bash prompt `$`](https://en.wikipedia.org/wiki/Bash_%28Unix_shell%29) or the old DOS prompt [`C:\>`](https://en.wikipedia.org/wiki/COMMAND.COM).  Command lines require you to write commands directly or store more complicated commands as files to run on demand.
 
-> ##  Why Can't I Type `Urbit`?
+In the previous lesson, you ran the command `+start`.  This begins with a `+` “lus”, which indicates that it is a _generator_ or standalone computation, like a batch file or shell script.  Some common generators:
+
+- `+trouble` displays debugging information.
+- `+vats` displays the current installation.
+- `+agents %base` displays some of the currently running apps on your ship.
+- `+help` displays a generic help summary of what's on your system, or searches for matching generator files.
+- `+cat` shows you the contents of a file.
+
+Let's unpack `+cat` first of all, since it encounters a few conventions we will use.  If you want to display (“conCATenate”) the contents of a file, you need to supply the location of the file, which we'll call its “path”.  A path in Urbit uses `/` “fas” forward slashes like macOS and Linux, and it does not use a `.` “dot” to separate the file extension (that's simply the last part of the path).  We often refer to a file's location with respect to our current location, which by default is on the `%base` desk of the current ship at the present moment.  To do that, we start our path with `%` “cen” as a shortcut for “me, here, now”.
+
+```hoon
+> +cat %/gen/start/hoon
+/~zod/base/~2024.7.29..19.59.55..9c0d/gen/start/hoon
+::  Initial help message
+::
+::::  /hoon/start/gen
+  ::
+:-  %say
+|=  *
+:-  %tang
+:~
+:+  %rose
+["" "" ""]
+%+  turn
+  :~  "Welcome to Urbit.  This command-line interface is the Dojo.  You can use it to"
+…
+```
+
+If you mistype part of the path, then `+cat` simply reports no content at that location.
+
+```hoon
+> +cat %/gen/start/hoo
+~ /~zod/base/~2024.7.29..20.02.03..a879/gen/start/hoo
+```
+
+> ### Why Can't I Type `Urbit`?
 >
 > The Dojo prompt has an unusual property:  it will not let you type what it thinks to be invalid commands or code.  That means that sometimes you try to type something and nothing appears at the cursor.  Or sometimes you copy and paste something and it gets garbled.  In both cases, the Dojo parser disagrees that what you're trying to enter is an acceptable command syntax.
 >
+> Not every part of an invalid command will be blocked:  you can type the path of a file that doesn't exist, for instance.  It's parsing based on grammar not contents.
+>
 > To really dig into this, we would have to look at Urbit's programming language, Hoon.  But for *The Urbit Book*, we promised we wouldn't, so we won't!
 
-ship details
-azimuth etc.
+Besides simple `+` “lus” generators, we have a couple of other kinds of commands in the Dojo:
+
+- `|` “bar” generators may make changes to your ship.  We call these “Hood” generators because `%hood` is the system app that administers them.  For instance, if you were to spawn a new moon, you would use `|moon`.  If you were to install a new app, you would use `|install`, and so forth.
+- `-` “hep” threads are transient communicating computations.  They normally do something involved like check an Internet resource or communicate with another ship.
+
+You run these the same way:  they may have some arguments, or even some optional arguments.  Compare the output of the following three commands:
+
+```hoon
+> +vats %base
+
+> +vats %base, =verb &
+
+> +vats, =verb &
+```
+
+The optional argument `verb` lets you specify a more verbose (detailed) output.
+
+> ### True and False
+>
+> We'll see a lot of ways to write equivalent values in Urbit.  While there are subtleties to this, in general you can use them interchangeably, much as how in regular text you can write “three”, “3”, and “iii” and mean sort of the same thing.
+> 
+> In what you just saw, `&` is `.y` or `%.y`, the value for `TRUE` in Urbit.  This is opposed by `|`, `.n`, `%.n` for `FALSE`.
+>
+> Try the command with `=verb |`.
+
+With that basis, let's look at some details of your ship's identity and operations.
+
+- Find out who your sponsor is with `+sponsor`.
+- Check connectivity to another ship with `|hi ~sampel-palnet`.
+
+Most of these today are really built for development or troubleshooting, so we'll skip the rest for now.
+
+### Modifying File Data
+
+what is a desk TODO
 
 `|mount`
 
+### Saving Results to File
+
+Sometimes the result of a calculation is too big to fit on your terminal screen, or you just want to have the data in a file so you can use the values elsewhere.  In that case, you can redirect the output of a computation to a file using `*` in the Dojo.
+
+For instance, let's use a generator to calculate the name of every planet under a given star.  We need to download and install the generator first.
+
+The contents we want are located in a GitHub repo at [`the-urbit-book/planet-names`](https://github.com/the-urbit-book/planet-names).  Let's use the `-new-app` thread to retrieve and install the code.
+
+```hoon
+> -new-app planet-names /the-urbit-book/planet-names
+```
+
+Once that completes successfully, you can run the generator on that desk:
+
+```hoon
+> +planet-names!planet-names ~sampel
+```
+
+This will take a few seconds to complete because of the output buffering.  It's more useful (and faster) to write the results straight to disk:
+
+```hoon
+> *%/tub/sampel/txt &txt +planet-names!planet-names ~sampel
+```
+
+Now the results are located in a file on your host OS, at `sampel-palnet/base/tub/sampel.txt`.
+
+> ### What's that `&txt`?
+> 
+> The final part of any file path in Urbit is a _mark_, basically the file type.  However, the file type is smarter than a regular file type, because it includes rules on how to convert it from one kind of data to another.  In this case, we're converting from whatever the output of the generator is (a `%tang`, or formatted text list) to a list of text, which is basically a text file.  That's what the `&txt` is telling Dojo to do there.
+
+**This lesson is complete.**
+
 ##  Lesson 3:  The Web Interface
+
+An Urbit ship is a server, meaning that it runs in the background while you access it through one or more means.  Most casual users will access Urbit through their web browser.  If you have a 
+
+The main landing page is 
 
 faster
 search for an app
+
+**This lesson is complete.**
 
 ##  Lesson 4:  Maintaining the Ship
 
