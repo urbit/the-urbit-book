@@ -1,19 +1,3 @@
-#   The Care and Feeding of Ships
-
-##  Learning Objectives:
-
-By completing this lesson, learners will be able to:
-
-- Confidently operate their Urbit ship.
-  - Start and run an Urbit ship.
-  - Carry out preventive maintenance and understand why each part matters.
-  - Recover from minor crashes without help.
-  - Recover from major crashes with guidance.
-
-Each lesson should take 15–20 minutes to complete.  You should complete exercises as you read through the lesson.
-
----
-
 ##  What is Urbit?
 
 Urbit is a new vision for how an Internet can work:  secure, decentralized, and owned by the individuals and communities that build it.  There's a lot of jargon involved, but the basic idea is that every part of the network has an encrypted censorship-proof communications channel to every other part.  You don't need permission to spend or receive money, to publish or share software, or to say anything you like.
@@ -259,19 +243,143 @@ Now the results are located in a file on your host OS, at `sampel-palnet/base/tu
 
 ##  Lesson 3:  The Web Interface
 
-An Urbit ship is a server, meaning that it runs in the background while you access it through one or more means.  Most casual users will access Urbit through their web browser.  If you have a 
+An Urbit ship is a server, meaning that it runs in the background while you access it through one or more means.  Most casual users will access Urbit through their web browser.  Hosted users use a URL designated by their hosting provider.  If you have set up a custom URL, then you should navigate there.  If you are running things locally, then try `http://localhost:8080` (Linux) or `http://localhost:80` (macOS).
 
-The main landing page is 
+You are first prompted to log in to the ship.  What is your password?  The easiest way to obtain it is to go back to your command line and run `+code`.  For instance, on a fake ship ~zod, you'll see this:
+
+```hoon
+> +code
+lidlut-tabwed-pillex-ridrup
+```
+
+The login code looks like a ship name.  It is random generated and tied to your ship.  You can use `|code` to set a new one, but typically you will only need to do that if you accidentally leak the first one.
+
+The main landing page is at `http://your.url/apps/landscape`.  This app has had a few different designations over its lifetime, notably “Grid” and “Landscape”; we'll use “Landscape” for the time being.  Landscape is like your phone's main page:  it brokers access to all of the apps you have installed, as well as provides the easiest way to obtain new ones.
 
 faster
 search for an app
 
+### Tlon
+
+“Tlon”, sometimes called “Groups”, is the main chat app that most folks use on Urbit today.  It's sort of like Signal, Slack, or Discord:  it makes it straightforward to set up groups containing chat channels, link collections, or long-form notebooks.  The first obstacle to using your Urbit ship socially is making contact with the communities you want to be part of.  Here are some good public groups to consider joining:
+
+- `~halbex-palheb/uf-public` Urbit Foundation
+- `~nibset-napwyn/tlon` Tlon Local
+- `~hiddev-dannut/new-hooniverse` Hooniverse Developer Education
+- `~dister-dozzod-lapdeg/battery-payload` `[battery payload]` Advanced Developers
+
+Most groups cater to niche interests:
+
+- `~natnex-ronret/door-link` door.link Music Sharing
+- `~tocwex/syndicate-public` Business Services
+- `~nattyv/nativeplanet` Native Planet
+- `~librex-dozryc/mrb-public` _Mars Review of Books_
+- `~sovref-hasfyr/scholia-pugillatoria` Combat Sports
+
+Many people post their favorite groups in their Tlon profile, so click into the details of new friends you meet along your way.
+
+And, of course, you can always click `+ New Group` and be the change you want to see in the world.
+
+> ### Hosting a Group
+> 
+> It's often more convenient to host a group from a ship other than your primary identity.  Some folks use stars, while others prefer moons.  The main thing to keep in mind is that the hosting ship needs to be always online and available.
+
+Some of the exercises that we will complete in future lessons, like adding chatbots, will be built into or on top of Tlon.
+
+### Install a New App
+
+To install an app, you need to know the publisher, or you can see if something in the suggestions list strikes your fancy.  Click `Get Urbit Apps` at the very top of the page and type `~paldev` in the search box.  You should see a list of several apps produced by developer ~palfun-foslup and hosted on his star ~paldev.  Click on `pals` and install it.  After a few seconds, you should see a new tile added to your Landscape page.  `pals` is a simple contact manager for Urbit, and several other apps use it as a basic friend list.
+
+
+Landscape searches for apps by provider (rather than by app name).  One of the very best apps to install early on, therefore, is a discovery app:  `%hits`.  `%hits` is a leaderboard for app installs, that is, it shows which apps your `%pals` have installed.
+
+
+
+You can accomplish the same thing at the command line using `|install ~sampel-palnet %app`—in this case, `|install ~bitdeg %hits`.
+
+In a future lesson, we will also see how to publish your own software.  We say that software distribution on Urbit is “permissionless”.  That means that no one gatekeeps software publishing.  In practice, that also means that you should be cautious about installing apps from developers you do not know or trust.  The Urbit community does a good job of policing bad behavior—if you are in doubt, ask about an app or developer in one of the big Tlon groups like `~halbex-palheb/uf-public` or `~nibset-napwyn/tlon`.
+
 **This lesson is complete.**
 
-##  Lesson 4:  Maintaining the Ship
+##  Lesson 4:  Keeping Your Ship Shipshape
+
+The main thing you have to worry about with a ship is memory.
+
+memory usage on drive and in RAM
+
+roll
+chop
+pack
+meld
+
+loom
+
+> ### What is the Loom?
+> 
+> Urbit describes the memory arena in which a ship's Nock computations take place as the “loom”.  [The technical details](https://docs.urbit.org/system/runtime/reference/nouns#u3-the-road-model) are pretty interesting and innovative, but for now just think of it as Nock-specific RAM.
+>
+> By running the ship with [`--loom`](https://docs.urbit.org/manual/running/vere#--loom-size), you can specify how much memory is available for Nock computations.  These are given in terms of powers of 2, e.g. `32` is $2^{32}$, or 4 GB.
+
+
+
+**This lesson is complete.**
 
 
 ##  Lesson 5:  What's Going Wrong?
+
+Since Urbit is not yet at absolute zero, and in any case we run on real hardware rather than some platonic substrate, you will on occasion encounter difficulties.  Most problems result from external computer issues:
+
+1. Running out of disk space.
+2. Insufficient RAM (see the section “Maintaining the Ship”).
+3. Solid-state drive failure.
+
+You can also see issues from a misbehaving app, especially when a systemwide kelvin upgrade takes place.  This lesson walks through how to resolve the most common issues—it's fine to skim it or skip it, but remember that it's here someday when you need it.
+
+### Insufficient Disk Space
+
+If a hard drive actually runs out of space, the Urbit ship can no longer process events and write them to disk.  The fix is easy to say:  clear up some disk space by deleting things you don't need.  In practice, because of trash features and the need for a copying buffer, it can be difficult to make this work easily.
+
+The easiest approach is to fix things on a local machine with lots of space:
+
+1. Shut down your ship as gracefully as possible (`|exit` if it works).
+2. Copy the ship over the network to a local laptop or desktop drive where you have some breathing room.  (The technique varies, but `scp -r user@remote:~/sampel-palnet .` may suffice.)
+3. Carry out basic maintenance locally (`pack`, `meld`, `roll`, `chop`).
+4. Confirm that the ship runs with `./sampel-palnet/.run -l` (which blocks networking, just in case).
+5. ONLY NOW DELETE THE REMOTE COPY.  This is the step at which you are most likely to make a mistake, so please triple-check.  On the remote computer, `rm -r sampel-palnet`.  Clear up any other space you need to as well.
+6. Zip the pier up locally (`tar cvzf sampel-palnet.tar.gz sampel-palnet`) and move it back to the remote computer (`scp -r ./sampel-palnet.tar.gz user@remote:~`).
+7. Unzip the ship on the remote (`tar xvzf sampel-palent.tar.gz`).
+8. Using `screen` or whichever session manager you like, start the ship normally.
+9. After verifying that the ship works, triple-check and run the command `rm sampel-palnet.tar.gz` to remove the compressed version.
+
+### Insufficient RAM
+
+If the Urbit ship is unable to access enough memory to carry out certain tasks (compiling a new OTA update, for example, or `|meld`ing memory), you can improve its overall performance by making more RAM available either temporarily or permanently.  While you are limited by the logical memory of the device on which you are running the ship, you can at least meet a temporary surge in demand using ample [swap space](https://linuxize.com/post/create-a-linux-swap-file/).
+
+The absolute first thing to try is just running the ship with more memory (“loom”):
+
+```
+./sampel-palnet/.run --loom 33
+```
+
+The next thing to do is fix things on a local machine with lots of RAM:
+
+1. Shut down your ship as gracefully as possible (`|exit` if it works).
+2. Zip up your ship's pier (`tar cvzf sampel-palnet.tar.gz sampel-palnet`).
+3. Copy the ship over the network to a local laptop or desktop drive where you have some breathing room.  (The technique varies, but `scp -r user@remote:~/sampel-palnet.tar.gz .` may suffice.  If you were unable to zip up the ship because of space issues, just copy the directory, i.e. leave out the `.tar.gz`.)
+4. Unpack the ship (`tar xvzf sampel-palnet.tar.gz`).
+5. Carry out basic maintenance (`pack`, `meld`, `roll`, `chop`).
+6. Confirm that the ship runs with `./sampel-palnet/.run -l` (which blocks networking, just in case).
+7. ONLY NOW DELETE THE REMOTE COPY.  This is the step at which you are most likely to make a mistake, so please triple-check.  On the remote computer, `rm sampel-palnet.tar.gz`
+8. Zip the pier up locally (`tar cvzf sampel-palnet.tar.gz sampel-palnet`) and move it back to the remote computer (`scp -r ./sampel-palnet.tar.gz user@remote:~`).
+9. Unzip the ship on the remote (`tar xvzf sampel-palent.tar.gz`).
+10. Using `screen` or whichever session manager you like, start the ship normally.
+11. After verifying that the ship works, triple-check and run the command `rm sampel-palnet.tar.gz` to remove the compressed version.
+
+Mediations:
+- Increase the swap space.
+- Run with more RAM.
+
+### Solid-State Drive Failure
 
 
 ##  Lesson 6:  Starting More Ships
@@ -285,4 +393,3 @@ If you are self-hosting a planet, you have available to you 2³² "moons".  Thes
 > Hosted planets also have moons, but hosting providers do not currently support running them on the hosting platform. Thus the process for running moons crosses over into self-hosted territory.  If you are hosted, you can use the same procedure here, but you'll need to run the moon on your own hardware.
 
 A moon depends on its planet to contact other points.  You'll need to run the planet the whole time that you are using the moon.
-
