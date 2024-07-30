@@ -12,6 +12,11 @@ In most cases, the context should be clear enough that we don't need to distingu
 
 ##  Lesson 1:  Getting Up and Running
 
+> ### Objectives
+> 
+> 1. Set up and operate an Urbit ship.
+> 2. Leave a ship running in a persistent session.
+
 So you're a proud new owner of an Urbit ship.  It's time to boot it up for the first time.
 
 > ### What is an "Urbit ship"?
@@ -122,6 +127,12 @@ You typically won't touch these at all, but now you know that they're there.
 
 
 ##  Lesson 2:  The Command Line Interface
+
+> ### Objectives
+>
+> 1. Carry out basic computations at the command line.
+> 2. Synchronize the ship's filesystem with the host OS's filesystem.
+> 3. Export data as a file from a ship.
 
 If you are hosted, you should access your terminal from the Landscape page at the Terminal app.  If you are self-hosted, you can use the terminal directly; you may need to type `screen -X Urbit` at the Bash prompt `$` to access it.
 
@@ -243,6 +254,12 @@ Now the results are located in a file on your host OS, at `sampel-palnet/base/tu
 
 ##  Lesson 3:  The Web Interface
 
+> ### Objectives
+> 
+> 1. Log into a web session.
+> 2. Access social groups using Tlon.
+> 3. Locate and install new apps at the web interface and the CLI.
+
 An Urbit ship is a server, meaning that it runs in the background while you access it through one or more means.  Most casual users will access Urbit through their web browser.  Hosted users use a URL designated by their hosting provider.  If you have set up a custom URL, then you should navigate there.  If you are running things locally, then try `http://localhost:8080` (Linux) or `http://localhost:80` (macOS).
 
 You are first prompted to log in to the ship.  What is your password?  The easiest way to obtain it is to go back to your command line and run `+code`.  For instance, on a fake ship ~zod, you'll see this:
@@ -303,6 +320,10 @@ In a future lesson, we will also see how to publish your own software.  We say t
 
 ##  Lesson 4:  Keeping Your Ship Shipshape
 
+> ### Objective
+> 
+> 1. Manage a ship's memory and working environment.
+
 The main thing you have to worry about with a ship is memory.
 
 memory usage on drive and in RAM
@@ -326,6 +347,10 @@ loom
 
 
 ##  Lesson 5:  What's Going Wrong?
+
+> ### Objective
+> 
+> 1. Troubleshoot common problems for long-running ships.
 
 Since Urbit is not yet at absolute zero, and in any case we run on real hardware rather than some platonic substrate, you will on occasion encounter difficulties.  Most problems result from external computer issues:
 
@@ -383,6 +408,12 @@ Mediations:
 
 
 ##  Lesson 6:  Starting More Ships
+
+> ### Objectives
+> 
+> 1. Spawn subsidiary moons.
+> 2. Operate multiple ships.
+> 3. Connect a master ship to a slave ship for app control.
 
 While we are not going to break your ship in *The Urbit Book* lessons, you may want to keep things tidy on your main ship.  In that case, completing the lessons using a secure disposable identity is a great way to experiment.
 
