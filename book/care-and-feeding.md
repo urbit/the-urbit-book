@@ -222,6 +222,7 @@ Most of these today are really built for development or troubleshooting, so we'l
 
 what is a desk TODO
 
+One of the first things that you'll want to do with any desk
 `|mount`
 
 ### Saving Results to File
@@ -245,7 +246,7 @@ Once that completes successfully, you can run the generator on that desk:
 This will take a few seconds to complete because of the output buffering.  It's more useful (and faster) to write the results straight to disk:
 
 ```hoon
-> *%/tub/sampel/txt &txt +planet-names!planet-names ~sampel
+> *%/tub/sampel/txt +planet-names!planet-names ~sampel
 ```
 
 Now the results are located in a file on your host OS, at `sampel-palnet/base/tub/sampel.txt`.
