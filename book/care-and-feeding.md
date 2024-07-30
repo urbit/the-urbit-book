@@ -400,12 +400,25 @@ The next thing to do is fix things on a local machine with lots of RAM:
 10. Using `screen` or whichever session manager you like, start the ship normally.
 11. After verifying that the ship works, triple-check and run the command `rm sampel-palnet.tar.gz` to remove the compressed version.
 
-Mediations:
-- Increase the swap space.
-- Run with more RAM.
+You can avoid this situation in the future by providing sufficient swap space (which can be a thorny technical question) or by regularly running the ship with more RAM.  You can also schedule preventive maintenance on the ship using the `%ahoy` app at `~mister-dister-midden-fabler/ahoy` or NativePlanet's [GroundSeg](https://github.com/Native-Planet/GroundSeg) ship manager.
 
 ### Solid-State Drive Failure
 
+TODO
+
+### Stuck Updates
+
+Urbit OS aims to become a “forever computer”.  Updates are nominally optional—you can keep running whichever version of Urbit you like, although at this relatively kelvin-hot stage you'll eventually lose communications and interoperability with the rest of the network.  So most of the time you want to accept incoming updates, and these are turned on by default anyway.
+
+Each app is distributed over the network as a desk.  We call the main `%base` system upgrades “OTAs” for “over the air \[updates]”.  The `%base` desk is the core operating system, and defines the system version, or kelvin.  Other desks must mark their compatibility with the current kelvin or be suspended, else they will block upgrades.
+
+If you think that your system is acting up because the `%base` OS is not updated or updating, try these steps, then ask for help in `~hiddev-dannut/new-hooniverse` or on Twitter `@urbitfoundation` if you're still stuck.
+
+1. Diagnose stuckness.  `+vats %base` and `+vats`, taken together, give you all of the information you need.  (`+trouble` can be helpful too if you end up reporting an issue.)  The “hash” is the unique version code that your desk currently has, and is one of the numbers you can check.  There is also a field for pending but unapplied updates.
+2. Try to [`|bump`](https://docs.urbit.org/manual/os/dojo-tools#bump) the system; if this fails, then `|bump, =force &` to suspend desks that may be blocking the update.
+3. If you know there has been an update released but it's been several hours or days and you haven't seen it, change your OTA sponsor with `|ota ~marzod`.
+
+**This lesson is complete.**
 
 ##  Lesson 6:  Starting More Ships
 
@@ -421,6 +434,9 @@ If you are self-hosting a planet, you have available to you 2³² "moons".  Thes
 
 > ##  Hosted Moons?
 >
-> Hosted planets also have moons, but hosting providers do not currently support running them on the hosting platform. Thus the process for running moons crosses over into self-hosted territory.  If you are hosted, you can use the same procedure here, but you'll need to run the moon on your own hardware.
+> Hosted planets can issue moons, but hosting providers do not currently support running them on the hosting platform. Thus the process for running moons crosses over into self-hosted territory.  If you are hosted, you can use the same procedure here, but you'll need to run the moon on your own hardware.
 
 A moon depends on its planet to contact other points.  You'll need to run the planet the whole time that you are using the moon.
+
+### Linking Remote Apps
+
