@@ -430,13 +430,31 @@ If you think that your system is acting up because the `%base` OS is not updated
 
 While we are not going to break your ship in *The Urbit Book* lessons, you may want to keep things tidy on your main ship.  In that case, completing the lessons using a secure disposable identity is a great way to experiment.
 
-If you are self-hosting a planet, you have available to you 2³² "moons".  These are wholly-owned inferior identities that you can use.
+If you are self-hosting a planet, you have available to you 2³² "moons".  These are wholly-owned inferior identities that you can use.  Today, most people use moons either to host groups or apps, or to serve as an obviously-owned network identity.  We will explore using moons as a secure way of (inter)operating apps, and as a way of sequestering app and code clutter.
+
+### Spawning a Moon
+
+In your ship's terminal, type `|moon`.  You receive in response a moon name (which ends with your four-syllable planet name) and a secret key.  That key is the lunar equivalent of your key file.  You'll only need it once, but keep it secret and secure.
+
+In another `screen` instance (perhaps named `Moon` or `UrbitMoon`), boot the moon for the first time:
+
+```
+urbit -w sampel-palnet-sampel-palnet -G 0wLRg9D.g4XNe.AGVM~.H1hYF.ZDhVg.tmksa.kKkG9.wQxG1.VUV8s.3s99R.GvKo-.I091I.q0bmt.f~6A0.VUeDq.-8iSP.dPonE.yQr45.56qTe.PEg8w.0sqPV.TDvzC.2w7o1
+```
+
+As soon as it has completed booting, go ahead and `|hi` your planet to verify that you have connectivity.  A moon depends on its planet to contact other points.  You'll need to run the planet the whole time that you are using any of its moons.
 
 > ##  Hosted Moons?
 >
 > Hosted planets can issue moons, but hosting providers do not currently support running them on the hosting platform. Thus the process for running moons crosses over into self-hosted territory.  If you are hosted, you can use the same procedure here, but you'll need to run the moon on your own hardware.
 
-A moon depends on its planet to contact other points.  You'll need to run the planet the whole time that you are using the moon.
+Each ship that you run on a particular machine requires some RAM and disk resources.  This leads to some practical limits; a small cloud VM may only be able to run a single ship, while a NativePlanet box could run up to ten if none of them are particularly demanding.  (We don't really have hard rules of thumb yet.)
 
 ### Linking Remote Apps
 
+Now that you own and operate more than one ship, you can use them to control each other.  Trivially, Dojo maintains an access control list which permits any ship on it to send valid Dojo code over the wire.
+
+1. On your moon, permit your planet to have full access:  `:dojo|allow-remote-login ~sampel-palnet`.  (You can actually skip this step for moons of a planet, but we'll include it for completeness' sake here.)
+2. On your planet, link to the moon's Dojo:  `|link ~sampel-palnet-sampel-palnet %dojo`.  From your planet, you can now see a `dojo>` prompt linked to the moon's Dojo.  (If you don't see this after it links, press `Ctrl`+`X` to cycle the linked apps at the CLI.)
+3. On your planet, you can type commands and they will propagate immediately to the moon's Dojo.  Try some things like `+trouble` and `|hi ~zod`.
+4. When you're done, on your moon, `:dojo|revoke-remote-login` as a security measure.  (In general, you don't need to worry about this too much, but we want you to see it.)  On your planet, `|unlink ~sampel-palnet-sampel-palnet %dojo`.
