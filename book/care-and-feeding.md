@@ -324,7 +324,14 @@ In a future lesson, we will also see how to publish your own software.  We say t
 > 
 > 1. Manage a ship's memory and working environment.
 
-The main thing you have to worry about with a ship is memory.
+The main thing you have to worry about with a ship is memory.  A new ship keeps a full event log from its original boot until its current state.  While this means that if something breaks in your ship's current state you can “replay” the history of events to recover the current state, it also means that your hard drive can fill up with the history of past events.
+
+Events can be trimmed by establishing a checkpoint and removing events prior to that point.
+
+> ### What is an Event?
+>
+>
+
 
 memory usage on drive and in RAM
 
@@ -436,7 +443,7 @@ If you are self-hosting a planet, you have available to you 2³² "moons".  Thes
 
 In your ship's terminal, type `|moon`.  You receive in response a moon name (which ends with your four-syllable planet name) and a secret key.  That key is the lunar equivalent of your key file.  You'll only need it once, but keep it secret and secure.
 
-In another `screen` instance (perhaps named `Moon` or `UrbitMoon`), boot the moon for the first time:
+In another `screen` instance (perhaps named `Moon` or `UrbitMoon`), boot the moon for the first time (using your own moon name with `-w` and key with `-G`):
 
 ```
 urbit -w sampel-palnet-sampel-palnet -G 0wLRg9D.g4XNe.AGVM~.H1hYF.ZDhVg.tmksa.kKkG9.wQxG1.VUV8s.3s99R.GvKo-.I091I.q0bmt.f~6A0.VUeDq.-8iSP.dPonE.yQr45.56qTe.PEg8w.0sqPV.TDvzC.2w7o1
@@ -456,5 +463,5 @@ Now that you own and operate more than one ship, you can use them to control eac
 
 1. On your moon, permit your planet to have full access:  `:dojo|allow-remote-login ~sampel-palnet`.  (You can actually skip this step for moons of a planet, but we'll include it for completeness' sake here.)
 2. On your planet, link to the moon's Dojo:  `|link ~sampel-palnet-sampel-palnet %dojo`.  From your planet, you can now see a `dojo>` prompt linked to the moon's Dojo.  (If you don't see this after it links, press `Ctrl`+`X` to cycle the linked apps at the CLI.)
-3. On your planet, you can type commands and they will propagate immediately to the moon's Dojo.  Try some things like `+trouble` and `|hi ~zod`.
+3. On your planet, you can type commands and they will propagate immediately to the moon's Dojo.  Try some things like `+trouble` and `|hi ~zod`.  (You can see a similar phenomenon if you open a webterm and have the `screen` CLI session open at the same time.)
 4. When you're done, on your moon, `:dojo|revoke-remote-login` as a security measure.  (In general, you don't need to worry about this too much, but we want you to see it.)  On your planet, `|unlink ~sampel-palnet-sampel-palnet %dojo`.
