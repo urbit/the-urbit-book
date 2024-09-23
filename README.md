@@ -1,5 +1,7 @@
 #   _**The Urbit Book**_
 
+**Status ~2024.9.23.  WIP, but de-prioritized until Arvo development is top-of-mind again for the Urbit Foundation.**
+
 ![The Urbit Book](./figs/header.png)
 
 ##  Table of Contents
